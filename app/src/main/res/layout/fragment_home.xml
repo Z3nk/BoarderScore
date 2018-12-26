@@ -16,7 +16,12 @@
 
         <android.support.constraint.ConstraintLayout android:layout_width="match_parent"
                                                      android:layout_height="match_parent"
-                                                     android:id="@+id/subcontainer">
+                                                     android:id="@+id/main">
+            <android.support.v7.widget.RecyclerView
+                    android:id="@+id/listOfPlayers"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+            </android.support.v7.widget.RecyclerView>
         </android.support.constraint.ConstraintLayout>
 
         <android.support.constraint.ConstraintLayout android:layout_width="match_parent"

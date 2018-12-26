@@ -7,14 +7,14 @@
         tools:context=".activities.HomeActivity"
         android:id="@+id/settings_collapsed">
 
-    <ImageView android:id="@+id/removePlayer"
+    <ImageView android:id="@+id/editPlayer"
                android:layout_width="48dp"
                android:layout_height="48dp"
                app:layout_constraintLeft_toLeftOf="parent"
                app:layout_constraintRight_toLeftOf="@id/tv_nb_players"
                app:layout_constraintTop_toTopOf="parent"
                app:layout_constraintBottom_toBottomOf="parent"
-               android:src="@drawable/ic_remove"/>
+               android:src="@drawable/ic_edit"/>
     <TextView android:layout_width="wrap_content"
               android:layout_height="wrap_content"
               android:textSize="25sp"

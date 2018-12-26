@@ -3,6 +3,7 @@ package com.boarderscore.boarderscore.fragments
 import android.arch.lifecycle.Observer
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v7.widget.LinearLayoutManager
 import android.transition.AutoTransition
 import android.transition.Fade
 import android.transition.Scene
@@ -14,17 +15,18 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import com.boarderscore.boarderscore.R
+import com.boarderscore.boarderscore.adapters.PlayersAdapter
+import com.boarderscore.boarderscore.models.Players
 import com.boarderscore.boarderscore.utils.SharedPref
 import com.boarderscore.boarderscore.utils.intLiveData
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import kotlinx.android.synthetic.main.fragment_home.*
 
 class HomeFragment : Fragment() {
-
-
     var mSceneRoot: ViewGroup? = null
     var mCollapsedScene: Scene? = null
     var mExpandedScene: Scene? = null
+    val mList = mutableListOf<Players>()
 
     companion object {
         const val TAG = "HomeFragment"
@@ -39,14 +41,21 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        childFragmentManager.beginTransaction().replace(R.id.subcontainer, PeanutClubFragment.newInstance()).commit()
         mSceneRoot = view.findViewById(R.id.settings)
         mCollapsedScene = Scene.getSceneForLayout(mSceneRoot, R.layout.fragment_settings_collapsed, activity)
         mExpandedScene = Scene.getSceneForLayout(mSceneRoot, R.layout.fragment_settings_extended, activity)
 
+        listOfPlayers.apply {
+            setHasFixedSize(true)
+            layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
+            adapter = PlayersAdapter(mList) {
+
+            }
+        }
+
+
         sliding_layout.addPanelSlideListener(object : SlidingUpPanelLayout.PanelSlideListener {
             override fun onPanelSlide(panel: View, slideOffset: Float) {
-                Log.i(TAG, "onPanelSlide, offset $slideOffset")
             }
 
             override fun onPanelStateChanged(
@@ -73,6 +82,8 @@ class HomeFragment : Fragment() {
 
         TransitionManager.go(mCollapsedScene, AutoTransition())
         loadCollapsedSettings()
+
+        val nbPlayers = SharedPref.getSharedPref(activity!!).getInt(SharedPref.dataNbPlayers, -1)
     }
 
     private fun loadCollapsedSettings() {
@@ -81,8 +92,12 @@ class HomeFragment : Fragment() {
         SharedPref.getSharedPref(activity!!).intLiveData(SharedPref.dataNbPlayers, -1)
             .observe(viewLifecycleOwner, Observer {
                 activity?.findViewById<TextView>(R.id.tv_nb_players)?.text = getString(R.string.nb_players, it)
+                while (it!! > mList.size) {
+                    mList.add(Players(getString(R.string.playerX, mList.size+1)))
+                    listOfPlayers.adapter.notifyDataSetChanged()
+                }
             })
-        activity?.findViewById<ImageView>(R.id.removePlayer)?.setOnClickListener {
+        activity?.findViewById<ImageView>(R.id.editPlayer)?.setOnClickListener {
             nbPlayers--
             SharedPref.getSharedPref(activity!!).edit()?.putInt(SharedPref.dataNbPlayers, nbPlayers)?.apply()
         }
