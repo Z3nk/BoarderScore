@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">BoarderScore</string>
+    <string name="nb_players">%1$d players</string>
+</resources>
