@@ -2,4 +2,9 @@
     <string name="app_name">BoarderScore</string>
     <string name="nb_players">%1$d players</string>
     <string name="playerX">Player %1$d</string>
+    <string name="nb_card_collector">Number of collector card ?</string>
+    <string name="nb_card_lux_antiq">Number of luxury or antique card ?</string>
+    <string name="nb_trio">Set of 3 identical cards ?</string>
+    <string name="compute">Calculate</string>
+
 </resources>

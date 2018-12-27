@@ -11,7 +11,7 @@ import com.boarderscore.boarderscore.models.Players
 import com.boarderscore.boarderscore.utils.StaticFields.nbPlayers
 
 
-class PlayersAdapter(val data: ArrayList<Players>, private val notifyParent: (fireman: Players) -> Unit) :
+class PlayersAdapter(val data: ArrayList<Players>, private val notifyParent: (player: Players) -> Unit) :
     RecyclerView.Adapter<PlayersAdapter.VH>() {
 
 
@@ -39,6 +39,7 @@ class PlayersAdapter(val data: ArrayList<Players>, private val notifyParent: (fi
         val pseudo: TextView? = itemView.findViewById(R.id.tv_pseudo)
         val score: TextView? = itemView.findViewById(R.id.tv_score)
         val delete: ImageView? = itemView.findViewById(R.id.iv_delete)
+        val layout: View? = itemView.findViewById(R.id.layout_player)
     }
 
     override fun onBindViewHolder(holder: VH, position: Int) {
@@ -56,6 +57,10 @@ class PlayersAdapter(val data: ArrayList<Players>, private val notifyParent: (fi
         } else {
             holder.score?.visibility = View.VISIBLE
             holder.delete?.visibility = View.GONE
+        }
+
+        holder.layout?.setOnClickListener {
+            notifyParent(data[position])
         }
     }
 
