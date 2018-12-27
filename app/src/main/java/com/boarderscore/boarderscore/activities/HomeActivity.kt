@@ -15,10 +15,10 @@ class HomeActivity : AppCompatActivity() {
             AppCompatDelegate.MODE_NIGHT_AUTO
         )
         supportFragmentManager.beginTransaction().replace(R.id.container, HomeFragment.newInstance()).commit()
-        val nbPlayers = SharedPref.getSharedPref(this).getInt(SharedPref.dataNbPlayers, -1)
+        /*val nbPlayers = SharedPref.getSharedPref(this).getInt(SharedPref.dataNbPlayers, -1)
         if (nbPlayers == -1) {
             SharedPref.getSharedPref(this).edit()?.putInt(SharedPref.dataNbPlayers, 1)?.apply()
-        }
+        }*/
 
     }
 }

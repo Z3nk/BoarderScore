@@ -1,6 +1,5 @@
 package com.boarderscore.boarderscore.fragments
 
-import android.arch.lifecycle.Observer
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
@@ -13,12 +12,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.TextView
 import com.boarderscore.boarderscore.R
 import com.boarderscore.boarderscore.adapters.PlayersAdapter
 import com.boarderscore.boarderscore.models.Players
-import com.boarderscore.boarderscore.utils.SharedPref
-import com.boarderscore.boarderscore.utils.intLiveData
+import com.boarderscore.boarderscore.utils.StaticFields.maxPlayers
+import com.boarderscore.boarderscore.utils.StaticFields.nbPlayers
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import kotlinx.android.synthetic.main.fragment_home.*
 
@@ -26,7 +24,7 @@ class HomeFragment : Fragment() {
     var mSceneRoot: ViewGroup? = null
     var mCollapsedScene: Scene? = null
     var mExpandedScene: Scene? = null
-    val mList = mutableListOf<Players>()
+    val mList = ArrayList<Players>()
 
     companion object {
         const val TAG = "HomeFragment"
@@ -81,29 +79,29 @@ class HomeFragment : Fragment() {
         )
 
         TransitionManager.go(mCollapsedScene, AutoTransition())
+        mList.add(Players(getString(R.string.playerX, nbPlayers)))
         loadCollapsedSettings()
-
-        val nbPlayers = SharedPref.getSharedPref(activity!!).getInt(SharedPref.dataNbPlayers, -1)
     }
 
     private fun loadCollapsedSettings() {
-        var nbPlayers = SharedPref.getSharedPref(activity!!).getInt(SharedPref.dataNbPlayers, -1)
-
-        SharedPref.getSharedPref(activity!!).intLiveData(SharedPref.dataNbPlayers, -1)
+        /*SharedPref.getSharedPref(activity!!).intLiveData(SharedPref.dataNbPlayers, -1)
             .observe(viewLifecycleOwner, Observer {
                 activity?.findViewById<TextView>(R.id.tv_nb_players)?.text = getString(R.string.nb_players, it)
                 while (it!! > mList.size) {
-                    mList.add(Players(getString(R.string.playerX, mList.size+1)))
+                    mList.add(Players(getString(R.string.playerX, mList.size + 1)))
                     listOfPlayers.adapter.notifyDataSetChanged()
                 }
-            })
+            })*/
         activity?.findViewById<ImageView>(R.id.editPlayer)?.setOnClickListener {
-            nbPlayers--
-            SharedPref.getSharedPref(activity!!).edit()?.putInt(SharedPref.dataNbPlayers, nbPlayers)?.apply()
+            mList.forEach { player -> player.editable = !player.editable }
+            listOfPlayers.adapter.notifyDataSetChanged()
         }
         activity?.findViewById<ImageView>(R.id.addPlayer)?.setOnClickListener {
-            nbPlayers++
-            SharedPref.getSharedPref(activity!!).edit()?.putInt(SharedPref.dataNbPlayers, nbPlayers)?.apply()
+            if (nbPlayers < maxPlayers) {
+                mList.forEach { player -> player.editable = false }
+                mList.add(Players(getString(R.string.playerX, ++nbPlayers)))
+                listOfPlayers.adapter.notifyDataSetChanged()
+            }
         }
     }
 }
