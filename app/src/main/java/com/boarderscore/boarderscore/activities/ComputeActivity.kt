@@ -5,17 +5,20 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.app.AppCompatDelegate
 import com.boarderscore.boarderscore.R
 import com.boarderscore.boarderscore.fragments.ComputeFragment
-import com.boarderscore.boarderscore.fragments.HomeFragment
-import com.boarderscore.boarderscore.utils.SharedPref
-import kotlinx.android.synthetic.main.activity_compute.*
 
 class ComputeActivity : AppCompatActivity() {
+
+    companion object {
+        const val BUNDLE_PLAYER = "BUNDLE_PLAYER"
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_compute)
         AppCompatDelegate.setDefaultNightMode(
             AppCompatDelegate.MODE_NIGHT_AUTO
         )
-        supportFragmentManager.beginTransaction().replace(R.id.container, ComputeFragment.newInstance()).commit()
+
+        var player = intent?.extras?.getSerializable(BUNDLE_PLAYER)
+        supportFragmentManager.beginTransaction().replace(R.id.container, ComputeFragment.newInstance(player)).commit()
     }
 }

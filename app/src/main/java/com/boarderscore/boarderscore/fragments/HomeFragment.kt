@@ -16,7 +16,10 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.boarderscore.boarderscore.R
 import com.boarderscore.boarderscore.activities.ComputeActivity
+import com.boarderscore.boarderscore.activities.ComputeActivity.Companion.BUNDLE_PLAYER
 import com.boarderscore.boarderscore.adapters.PlayersAdapter
+import com.boarderscore.boarderscore.fragments.ComputeFragment.Companion.BUNDLE_NEW_PSEUDO
+import com.boarderscore.boarderscore.fragments.ComputeFragment.Companion.BUNDLE_NEW_SCORE
 import com.boarderscore.boarderscore.models.Players
 import com.boarderscore.boarderscore.utils.StaticFields.maxPlayers
 import com.boarderscore.boarderscore.utils.StaticFields.nbPlayers
@@ -33,7 +36,6 @@ class HomeFragment : Fragment() {
     companion object {
         const val TAG = "HomeFragment"
         const val REQUEST_COMPUTE = 0
-        const val KEY_COMPUTE = "KEY_COMPUTE"
         fun newInstance(): HomeFragment {
             return HomeFragment()
         }
@@ -45,11 +47,15 @@ class HomeFragment : Fragment() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if(requestCode == REQUEST_COMPUTE){
-            if(resultCode == ComputeFragment.RESULT_COMPUTE_OK){
-                lastPlayerSelected?.score = data?.extras?.getInt(KEY_COMPUTE)?:0
-                listOfPlayers.adapter?.notifyDataSetChanged()
+        if (requestCode == REQUEST_COMPUTE) {
+            if (resultCode == ComputeFragment.RESULT_COMPUTE_ADD_POINTS) {
+                lastPlayerSelected?.score = data?.extras?.getInt(BUNDLE_NEW_SCORE) ?: 0
+            } else if (resultCode == ComputeFragment.RESULT_COMPUTE_EDIT) {
+                lastPlayerSelected?.score = data?.extras?.getInt(BUNDLE_NEW_SCORE) ?: 0
+                lastPlayerSelected?.pseudo = data?.extras?.getString(BUNDLE_NEW_PSEUDO)
+
             }
+            listOfPlayers.adapter?.notifyDataSetChanged()
         }
 
     }
@@ -64,8 +70,13 @@ class HomeFragment : Fragment() {
             setHasFixedSize(true)
             layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
             adapter = PlayersAdapter(mList) {
-                lastPlayerSelected=it
-                startActivityForResult(Intent(activity!!, ComputeActivity::class.java), REQUEST_COMPUTE)
+                lastPlayerSelected = it
+                startActivityForResult(
+                    Intent(
+                        activity!!,
+                        ComputeActivity::class.java
+                    ).apply { putExtras(Bundle().apply { putSerializable(BUNDLE_PLAYER, it) }) }, REQUEST_COMPUTE
+                )
             }
         }
 

@@ -11,19 +11,31 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.boarderscore.boarderscore.R
+import com.boarderscore.boarderscore.models.Players
 import kotlinx.android.synthetic.main.fragment_compute.*
+import java.io.Serializable
 
 class ComputeFragment : Fragment() {
 
     companion object {
         const val TAG = "ComputeFragment"
-        const val RESULT_COMPUTE_OK = 1337
+        const val RESULT_COMPUTE_ADD_POINTS = 1337
+        const val RESULT_COMPUTE_EDIT = 1338
         const val RESULT_COMPUTE_KO = -1
-        fun newInstance(): ComputeFragment {
-            return ComputeFragment()
+        const val BUNDLE_PLAYER = "BUNDLE_PLAYER"
+        const val BUNDLE_NEW_SCORE = "BUNDLE_NEW_SCORE"
+        const val BUNDLE_NEW_PSEUDO = "BUNDLE_NEW_PSEUDO"
+
+        fun newInstance(player: Serializable?): ComputeFragment {
+            return ComputeFragment().apply {
+                arguments = Bundle().apply {
+                    putSerializable(BUNDLE_PLAYER, player)
+                }
+            }
         }
     }
 
+    private var player: Players? = null
     private var currentScoreLD: MutableLiveData<Int> = MutableLiveData<Int>().apply { postValue(0) }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -32,6 +44,11 @@ class ComputeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        player = arguments?.getSerializable(BUNDLE_PLAYER) as? Players
+        et_total_score.setText(player?.score.toString())
+        et_pseudo.setText(player?.pseudo.toString())
+
         currentScoreLD.observe(viewLifecycleOwner, Observer {
             tv_actuel_score.text = getString(R.string.Xpoints, it)
         })
@@ -77,8 +94,16 @@ class ComputeFragment : Fragment() {
 
         btn_compute.setOnClickListener {
             val bundle = Bundle()
-            bundle.putInt(HomeFragment.KEY_COMPUTE, currentScoreLD.value!!)
-            activity?.setResult(RESULT_COMPUTE_OK, Intent().apply { putExtras(bundle) })
+            bundle.putInt(BUNDLE_NEW_SCORE, player!!.score + currentScoreLD.value!!)
+            activity?.setResult(RESULT_COMPUTE_ADD_POINTS, Intent().apply { putExtras(bundle) })
+            activity?.finish()
+        }
+
+        btn_finish_edit.setOnClickListener {
+            val bundle = Bundle()
+            bundle.putInt(BUNDLE_NEW_SCORE, et_total_score.text.toString().toInt())
+            bundle.putString(BUNDLE_NEW_PSEUDO, et_pseudo.text.toString())
+            activity?.setResult(RESULT_COMPUTE_EDIT, Intent().apply { putExtras(bundle) })
             activity?.finish()
         }
     }
