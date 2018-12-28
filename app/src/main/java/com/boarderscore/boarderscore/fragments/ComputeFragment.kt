@@ -4,6 +4,7 @@ import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.Observer
 import android.content.Intent
 import android.os.Bundle
+import android.support.design.widget.TabLayout
 import android.support.v4.app.Fragment
 import android.text.Editable
 import android.text.TextWatcher
@@ -54,7 +55,29 @@ class ComputeFragment : Fragment() {
         })
         currentScoreLD.postValue(0)
 
-        et_collector.isPressed = true
+        tab_layout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+            override fun onTabSelected(tab: TabLayout.Tab?) {
+                when(tab?.text){
+                    getString(R.string.add_points) -> {
+                        layout_add_points.visibility = View.VISIBLE
+                        layout_edit.visibility = View.GONE
+                    }
+                    getString(R.string.edit) -> {
+                        layout_add_points.visibility = View.GONE
+                        layout_edit.visibility = View.VISIBLE
+                    }
+                }
+                val i = tab
+            }
+
+            override fun onTabUnselected(tab: TabLayout.Tab?) {
+            }
+
+            override fun onTabReselected(tab: TabLayout.Tab?) {
+
+            }
+        })
+
         et_collector.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
             }

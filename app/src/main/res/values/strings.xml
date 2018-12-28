@@ -12,5 +12,6 @@
     <string name="player_pseudo">Player\'s username</string>
     <string name="current_player_score">Current player score</string>
     <string name="reset">Reset</string>
+    <string name="add_to_score">will be add to your actuel score</string>
 
 </resources>
