@@ -5,6 +5,7 @@
     <string name="nb_card_collector">Number of collector card ?</string>
     <string name="nb_card_lux_antiq">Number of luxury or antique card ?</string>
     <string name="nb_trio">Set of 3 identical cards ?</string>
-    <string name="compute">Calculate</string>
+    <string name="finish">Finish</string>
+    <string name="Xpoints">%1$d points</string>
 
 </resources>

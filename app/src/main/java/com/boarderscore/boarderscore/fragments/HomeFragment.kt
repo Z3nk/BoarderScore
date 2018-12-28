@@ -28,9 +28,12 @@ class HomeFragment : Fragment() {
     var mCollapsedScene: Scene? = null
     var mExpandedScene: Scene? = null
     val mList = ArrayList<Players>()
+    var lastPlayerSelected: Players? = null
 
     companion object {
         const val TAG = "HomeFragment"
+        const val REQUEST_COMPUTE = 0
+        const val KEY_COMPUTE = "KEY_COMPUTE"
         fun newInstance(): HomeFragment {
             return HomeFragment()
         }
@@ -42,6 +45,12 @@ class HomeFragment : Fragment() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
+        if(requestCode == REQUEST_COMPUTE){
+            if(resultCode == ComputeFragment.RESULT_COMPUTE_OK){
+                lastPlayerSelected?.score = data?.extras?.getInt(KEY_COMPUTE)?:0
+                listOfPlayers.adapter?.notifyDataSetChanged()
+            }
+        }
 
     }
 
@@ -55,7 +64,8 @@ class HomeFragment : Fragment() {
             setHasFixedSize(true)
             layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
             adapter = PlayersAdapter(mList) {
-                startActivityForResult(Intent(activity!!, ComputeActivity::class.java), 0)
+                lastPlayerSelected=it
+                startActivityForResult(Intent(activity!!, ComputeActivity::class.java), REQUEST_COMPUTE)
             }
         }
 
@@ -92,13 +102,6 @@ class HomeFragment : Fragment() {
     }
 
     private fun loadCollapsedSettings() {
-        /*SharedPref.getSharedPref(activity!!).intLiveData(SharedPref.dataNbPlayers, -1)
-            .observe(viewLifecycleOwner, Observer {
-                while (it!! > mList.size) {
-                    mList.add(Players(getString(R.string.playerX, mList.size + 1)))
-                    listOfPlayers.adapter.notifyDataSetChanged()
-                }
-            })*/
         activity?.findViewById<ImageView>(R.id.editPlayer)?.setOnClickListener {
             mList.forEach { player -> player.editable = !player.editable }
             listOfPlayers.adapter?.notifyDataSetChanged()

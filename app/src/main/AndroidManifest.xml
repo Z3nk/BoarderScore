@@ -18,7 +18,8 @@
         </activity>
 
         <activity android:name=".activities.ComputeActivity"
-                  android:theme="@style/ComputeTheme">
+                  android:theme="@style/ComputeTheme"
+                  android:windowSoftInputMode="stateVisible">
         </activity>
     </application>
 
