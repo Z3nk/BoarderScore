@@ -46,37 +46,20 @@ class ComputeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        player = arguments?.getSerializable(BUNDLE_PLAYER) as? Players
-        et_total_score.setText(player?.score.toString())
-        et_pseudo.setText(player?.pseudo.toString())
+        // Common tab
+        setTabLayoutListener()
+        setEditListener()
 
+        // Specific gaming tab
+        initPeanutClubCalculator()
+
+    }
+
+    private fun initPeanutClubCalculator() {
         currentScoreLD.observe(viewLifecycleOwner, Observer {
             tv_actuel_score.text = getString(R.string.Xpoints, it)
         })
         currentScoreLD.postValue(0)
-
-        tab_layout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
-            override fun onTabSelected(tab: TabLayout.Tab?) {
-                when(tab?.text){
-                    getString(R.string.add_points) -> {
-                        layout_add_points.visibility = View.VISIBLE
-                        layout_edit.visibility = View.GONE
-                    }
-                    getString(R.string.edit) -> {
-                        layout_add_points.visibility = View.GONE
-                        layout_edit.visibility = View.VISIBLE
-                    }
-                }
-                val i = tab
-            }
-
-            override fun onTabUnselected(tab: TabLayout.Tab?) {
-            }
-
-            override fun onTabReselected(tab: TabLayout.Tab?) {
-
-            }
-        })
 
         et_collector.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
@@ -121,6 +104,12 @@ class ComputeFragment : Fragment() {
             activity?.setResult(RESULT_COMPUTE_ADD_POINTS, Intent().apply { putExtras(bundle) })
             activity?.finish()
         }
+    }
+
+    private fun setEditListener() {
+        player = arguments?.getSerializable(BUNDLE_PLAYER) as? Players
+        et_total_score.setText(player?.score.toString())
+        et_pseudo.setText(player?.pseudo.toString())
 
         btn_finish_edit.setOnClickListener {
             val bundle = Bundle()
@@ -129,6 +118,31 @@ class ComputeFragment : Fragment() {
             activity?.setResult(RESULT_COMPUTE_EDIT, Intent().apply { putExtras(bundle) })
             activity?.finish()
         }
+    }
+
+    private fun setTabLayoutListener() {
+        tab_layout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+            override fun onTabSelected(tab: TabLayout.Tab?) {
+                when (tab?.text) {
+                    getString(R.string.add_points) -> {
+                        layout_add_points.visibility = View.VISIBLE
+                        layout_edit.visibility = View.GONE
+                    }
+                    getString(R.string.edit) -> {
+                        layout_add_points.visibility = View.GONE
+                        layout_edit.visibility = View.VISIBLE
+                    }
+                }
+                val i = tab
+            }
+
+            override fun onTabUnselected(tab: TabLayout.Tab?) {
+            }
+
+            override fun onTabReselected(tab: TabLayout.Tab?) {
+
+            }
+        })
     }
 
 }

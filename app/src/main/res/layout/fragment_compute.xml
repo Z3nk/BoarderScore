@@ -17,6 +17,7 @@
                                                  android:layout_margin="20dp"
                                                  android:padding="10dp">
 
+        <!-- COMMON -->
         <android.support.design.widget.TabLayout android:id="@+id/tab_layout"
                                                  android:layout_width="match_parent"
                                                  android:layout_height="wrap_content"
@@ -31,6 +32,8 @@
                                                    android:layout_height="wrap_content"
                                                    android:text="@string/edit"/>
         </android.support.design.widget.TabLayout>
+
+        <!-- COMMON -->
         <android.support.constraint.ConstraintLayout android:id="@+id/layout_add_points"
                                                      android:layout_width="0dp"
                                                      android:layout_height="0dp"
@@ -133,6 +136,7 @@
 
         </android.support.constraint.ConstraintLayout>
 
+        <!-- SPECIFIC -->
         <android.support.constraint.ConstraintLayout
                 android:id="@+id/layout_edit"
                 android:visibility="gone"
