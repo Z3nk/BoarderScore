@@ -10,4 +10,5 @@
     <color name="bg_dark">#27282f</color>
     <color name="darker_black">#25252a</color>
     <color name="alpha">#91000000</color>
+    <color name="alpha2">#b1000000</color>
 </resources>
