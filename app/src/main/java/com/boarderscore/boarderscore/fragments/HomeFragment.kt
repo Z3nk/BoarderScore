@@ -21,6 +21,7 @@ import com.boarderscore.boarderscore.activities.ComputeActivity.Companion.BUNDLE
 import com.boarderscore.boarderscore.adapters.PlayersAdapter
 import com.boarderscore.boarderscore.fragments.ComputeFragment.Companion.BUNDLE_NEW_PSEUDO
 import com.boarderscore.boarderscore.fragments.ComputeFragment.Companion.BUNDLE_NEW_SCORE
+import com.boarderscore.boarderscore.models.HandlerType
 import com.boarderscore.boarderscore.models.Players
 import com.boarderscore.boarderscore.utils.StaticFields.maxPlayers
 import com.boarderscore.boarderscore.utils.StaticFields.nbPlayers
@@ -71,14 +72,18 @@ class HomeFragment : Fragment() {
         listOfPlayers.apply {
             setHasFixedSize(true)
             layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
-            adapter = PlayersAdapter(mList) {
-                lastPlayerSelected = it
-                startActivityForResult(
-                    Intent(
-                        activity!!,
-                        ComputeActivity::class.java
-                    ).apply { putExtras(Bundle().apply { putSerializable(BUNDLE_PLAYER, it) }) }, REQUEST_COMPUTE
-                )
+            adapter = PlayersAdapter(mList) { player, type ->
+                if (type == HandlerType.EDIT) {
+                    lastPlayerSelected = player
+                    startActivityForResult(
+                        Intent(
+                            activity!!,
+                            ComputeActivity::class.java
+                        ).apply { putExtras(Bundle().apply { putSerializable(BUNDLE_PLAYER, player) }) }, REQUEST_COMPUTE
+                    )
+                } else {
+                    activity?.findViewById<TextView>(R.id.tv_nb_players)?.text = getString(R.string.nb_players, mList.size)
+                }
             }
         }
 
@@ -112,6 +117,7 @@ class HomeFragment : Fragment() {
 
         TransitionManager.go(mCollapsedScene, AutoTransition())
         mList.add(Players(getString(R.string.playerX, nbPlayers)))
+        activity?.findViewById<TextView>(R.id.tv_nb_players)?.text = getString(R.string.nb_players, mList.size)
         loadCollapsedSettings()
     }
 
@@ -126,9 +132,9 @@ class HomeFragment : Fragment() {
         }
         activity?.findViewById<ImageView>(R.id.addPlayer)?.setOnClickListener {
             if (nbPlayers < maxPlayers) {
-                activity?.findViewById<TextView>(R.id.tv_nb_players)?.text = getString(R.string.nb_players, mList.size)
                 mList.forEach { player -> player.editable = false }
                 mList.add(Players(getString(R.string.playerX, ++nbPlayers)))
+                activity?.findViewById<TextView>(R.id.tv_nb_players)?.text = getString(R.string.nb_players, mList.size)
                 listOfPlayers.adapter?.notifyDataSetChanged()
             }
         }

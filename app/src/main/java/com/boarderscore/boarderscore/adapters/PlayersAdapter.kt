@@ -7,11 +7,12 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import com.boarderscore.boarderscore.R
+import com.boarderscore.boarderscore.models.HandlerType
 import com.boarderscore.boarderscore.models.Players
 import com.boarderscore.boarderscore.utils.StaticFields.nbPlayers
 
 
-class PlayersAdapter(val data: ArrayList<Players>, private val notifyParent: (player: Players) -> Unit) :
+class PlayersAdapter(val data: ArrayList<Players>, private val notifyParent: (player: Players, handlerType: HandlerType) -> Unit) :
     RecyclerView.Adapter<PlayersAdapter.VH>() {
 
 
@@ -49,7 +50,9 @@ class PlayersAdapter(val data: ArrayList<Players>, private val notifyParent: (pl
             holder.gopher?.setImageResource(getGopher(it))
         }
         holder.delete?.setOnClickListener {
+            var player = data[position]
             removeAt(position)
+            notifyParent(player, HandlerType.REMOVE)
         }
         if (data[position].editable) {
             holder.score?.visibility = View.GONE
@@ -60,7 +63,7 @@ class PlayersAdapter(val data: ArrayList<Players>, private val notifyParent: (pl
         }
 
         holder.layout?.setOnClickListener {
-            notifyParent(data[position])
+            notifyParent(data[position], HandlerType.EDIT)
         }
     }
 
