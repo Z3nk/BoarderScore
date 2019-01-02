@@ -10,9 +10,10 @@ import com.boarderscore.boarderscore.R
 import com.boarderscore.boarderscore.models.HandlerType
 import com.boarderscore.boarderscore.models.Players
 import com.boarderscore.boarderscore.utils.StaticFields.nbPlayers
+import java.lang.Exception
 
 
-class PlayersAdapter(val data: ArrayList<Players>, private val notifyParent: (player: Players, handlerType: HandlerType) -> Unit) :
+class PlayersAdapter(val data: ArrayList<Players>, private val notifyParent: (player: Players?, handlerType: HandlerType) -> Unit) :
     RecyclerView.Adapter<PlayersAdapter.VH>() {
 
 
@@ -50,7 +51,13 @@ class PlayersAdapter(val data: ArrayList<Players>, private val notifyParent: (pl
             holder.gopher?.setImageResource(getGopher(it))
         }
         holder.delete?.setOnClickListener {
-            var player = data[position]
+
+            var player : Players? = null
+            if (data.elementAtOrNull(position) != null) {
+                if (map.containsKey(data[position].pseudo)) {
+                    player = data[position]
+                }
+            }
             removeAt(position)
             notifyParent(player, HandlerType.REMOVE)
         }
@@ -87,8 +94,12 @@ class PlayersAdapter(val data: ArrayList<Players>, private val notifyParent: (pl
     }
 
     private fun getGopher(username: String): Int {
-        if (!map.containsKey(username)) {
-            map[username] = if (map.size < list.size) list[nbPlayers - 1] else R.drawable.ic_jim
+        try {
+            if (!map.containsKey(username)) {
+                map[username] = if (map.size < list.size) list[nbPlayers - 1] else R.drawable.ic_jim
+            }
+        }catch (e: Exception){
+            map[username] = R.drawable.ic_jim
         }
         return map[username]!!
     }

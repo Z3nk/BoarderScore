@@ -117,7 +117,6 @@ class HomeFragment : Fragment() {
 
         TransitionManager.go(mCollapsedScene, AutoTransition())
         mList.add(Players(getString(R.string.playerX, nbPlayers)))
-        activity?.findViewById<TextView>(R.id.tv_nb_players)?.text = getString(R.string.nb_players, mList.size)
         loadCollapsedSettings()
     }
 
@@ -126,17 +125,16 @@ class HomeFragment : Fragment() {
     }
 
     private fun loadCollapsedSettings() {
+        activity?.findViewById<TextView>(R.id.tv_nb_players)?.text = getString(R.string.nb_players, mList.size)
         activity?.findViewById<ImageView>(R.id.editPlayer)?.setOnClickListener {
             mList.forEach { player -> player.editable = !player.editable }
             listOfPlayers.adapter?.notifyDataSetChanged()
         }
         activity?.findViewById<ImageView>(R.id.addPlayer)?.setOnClickListener {
-            if (nbPlayers < maxPlayers) {
                 mList.forEach { player -> player.editable = false }
                 mList.add(Players(getString(R.string.playerX, ++nbPlayers)))
                 activity?.findViewById<TextView>(R.id.tv_nb_players)?.text = getString(R.string.nb_players, mList.size)
                 listOfPlayers.adapter?.notifyDataSetChanged()
-            }
         }
     }
 }
