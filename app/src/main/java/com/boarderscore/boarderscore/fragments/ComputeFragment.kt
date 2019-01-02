@@ -8,6 +8,7 @@ import android.support.design.widget.TabLayout
 import android.support.v4.app.Fragment
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -37,7 +38,10 @@ class ComputeFragment : Fragment() {
     }
 
     private var player: Players? = null
-    private var currentScoreLD: MutableLiveData<Int> = MutableLiveData<Int>().apply { postValue(0) }
+    private var finalScore = 0
+    private var currentScoreLD: MutableLiveData<Int> = MutableLiveData<Int>().apply {
+        postValue(0)
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_compute, container, false)
@@ -57,7 +61,12 @@ class ComputeFragment : Fragment() {
 
     private fun initPeanutClubCalculator() {
         currentScoreLD.observe(viewLifecycleOwner, Observer {
-            tv_actuel_score.text = getString(R.string.Xpoints, it)
+
+            var scoreCollector = et_collector.text.toString().toIntOrNull() ?: 0
+            var scoreLux = et_lux_or_antiq.text.toString().toIntOrNull() ?: 0
+            var scoreTrio = et_trio.text.toString().toIntOrNull() ?: 0
+            finalScore = scoreCollector * 2 + scoreLux * 2 + scoreTrio * 3
+            tv_actuel_score.text = getString(R.string.Xpoints, finalScore)
         })
         currentScoreLD.postValue(0)
 
@@ -69,8 +78,7 @@ class ComputeFragment : Fragment() {
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                var scoreCollector = et_collector.text.toString().toIntOrNull() ?: 0
-                currentScoreLD.postValue(scoreCollector + currentScoreLD.value!!)
+                currentScoreLD.postValue(1)
             }
         })
         et_lux_or_antiq.addTextChangedListener(object : TextWatcher {
@@ -81,8 +89,7 @@ class ComputeFragment : Fragment() {
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                var scoreLux = et_lux_or_antiq.text.toString().toIntOrNull() ?: 0
-                currentScoreLD.postValue(scoreLux + currentScoreLD.value!!)
+                currentScoreLD.postValue(1)
             }
         })
         et_trio.addTextChangedListener(object : TextWatcher {
@@ -93,14 +100,13 @@ class ComputeFragment : Fragment() {
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                var scoreTrio = et_trio.text.toString().toIntOrNull() ?: 0
-                currentScoreLD.postValue(scoreTrio * 3 + currentScoreLD.value!!)
+                currentScoreLD.postValue(1)
             }
         })
 
         btn_compute.setOnClickListener {
             val bundle = Bundle()
-            bundle.putInt(BUNDLE_NEW_SCORE, player!!.score + currentScoreLD.value!!)
+            bundle.putInt(BUNDLE_NEW_SCORE, player!!.score + finalScore)
             activity?.setResult(RESULT_COMPUTE_ADD_POINTS, Intent().apply { putExtras(bundle) })
             activity?.finish()
         }
