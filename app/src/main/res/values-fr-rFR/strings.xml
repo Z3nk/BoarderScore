@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">BoarderScore</string>
+    <string name="app_name">Peanut Club Calculateur</string>
     <string name="nb_players">%1$d joueurs</string>
     <string name="playerX">Joueur %1$d</string>
     <string name="nb_card_collector">Nombre de cartes collectionneurs ?</string>

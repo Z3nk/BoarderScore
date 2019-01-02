@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">BoarderScore</string>
+    <string name="app_name">Peanut Club Calculator</string>
     <string name="nb_players">%1$d players</string>
     <string name="playerX">Player %1$d</string>
     <string name="nb_card_collector">Number of collector card ?</string>
