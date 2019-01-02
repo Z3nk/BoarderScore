@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">BoarderScore</string>
+    <string name="nb_players">%1$d joueurs</string>
+    <string name="playerX">Joueur %1$d</string>
+    <string name="nb_card_collector">Nombre de cartes collectionneurs ?</string>
+    <string name="nb_card_lux_antiq">Nombre de cartes luxes ou antiques ?</string>
+    <string name="nb_trio">Combien de lot de 3 cartes identitiques ?</string>
+    <string name="finish">Terminer</string>
+    <string name="Xpoints">%1$d points</string>
+    <string name="add_points">Ajouter les points</string>
+    <string name="edit">Editer</string>
+    <string name="player_pseudo">Nom du joueur</string>
+    <string name="current_player_score">Score actuel du joueur</string>
+    <string name="reset">Reinitialiser</string>
+    <string name="add_to_score">vont être ajouté au score actuel</string>
+    <string name="rules">
+        <![CDATA[<div><p><strong> Bienvenue au Peanut Club !</strong></p>  <p>En tant qu\'illustres collectionneurs, vous êtes invités à une prestigieuse vente aux enchères se déroulant à la croisée d\'univers hétéroclites. <br> Votre but, repartir de la vente avec le plus bel assortiment d\'objets.</p>  <p><strong> Comment ça marche?</strong></p>  <p>Peanut Club est un jeu basé sur une mécanique d\'enchère biaisée...<br> Pour enchérir, trois monnaies sont acceptées : les Millions de dollars, les Chameaux et les Cacahuètes. La valeur de chaque monnaie est fixée aléatoirement au début de la partie et pourra évoluer au cours de la partie.</p>  <p>Au début de la partie, chaque jour reçoit une carte Personnage avec sa catégorie préférentielle et reçoit aléatoirement des cartes Monnaie pour un total de 35 en valeur. Ensuite, un lot de 1 à 3 cartes Objet est révélé et les joueurs peuvent alors commencer à enchérir simultanément. On peut trouver sur chaque carte Objet l\'Objet en question et les deux symboles des catégories auquel il appartient (parmi les 8 catégories existantes).</p>  <p>Le plus haut enchérisseur remportera le lot comme traditionnellement, mais les joueurs auront quelques pouvoirs à leur disposition pour influencer la phase d\'enchères. Ils pourront, par exemple, modifié la valeur respective des Monnaies, interdire l\'utilisation d\'une Monnaie, ou encore utiliser n\'importe qu\'elle Monnaie pour payer l\'enchère remportée. Bien entendu ces pouvoirs sont limités à une seule utilisation... Enfin presque!</p>  <p>Après que le meilleur enchérisseur a payé son offre, il place le lot d\'Objets devant lui et un nouveau lot d\'Objets est mis aux enchères.</p>  <p><strong>Quand le jeu se termine-t-il ?</strong></p>  <p>Tant qu\'il y a des Objets sur lesquels enchérir et au moins un joueur à qui il reste de la monnaie, les enchères continuent. Lorsque la vente est terminée, les joueurs vont compter leurs points de victoire.</p>  <p>Chaque série de 3 symboles de catégorie identiques rapporte 3 points. Chaque symbole Luxure, Antique, et chaque symbole du type de votre personnage rapporte 1 point supplémentaire. Tout est cumulatif. Le joueur avec le plus de points de victoire remporte la partie!</p>  </div>]]></string>
+</resources>

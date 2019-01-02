@@ -13,5 +13,27 @@
     <string name="current_player_score">Current player score</string>
     <string name="reset">Reset</string>
     <string name="add_to_score">will be add to your actuel score</string>
+    <string name="rules"><![CDATA[<div><p><strong> Welcome to the Peanut Club!</strong></p>
+
+<p>As a famous collector you\'re invited to a tremendous auction sale which take place at the cross of disparate universes.<br>
+Your goal is to leave the auction sale with the most beautiful collection of objects.</p>
+
+<p><strong> How does it works?</strong></p>
+
+<p>Peanut Club is a game based on a twisted bidding mechanism. <br>
+To bid you have the choice between three currencies: Camels, Peanuts, and Million Dollars. The rate of each currency is randomly fixed but it may vary during the game.</p>
+
+<p>At the beginning of the game, each player will choose a character card with their category symbol and will receive a random set of currency cards for a value of 35. Then, a first collection of 1 to 3 object cards to be sell is revealed and players begin to bid at the same time. Each object card shows the object itself and two category symbols from eight existing.</p>
+
+<p>The higher bid will win the collection as usual, but the players can use some powers during the bid. For example, they can change the rate of a currency, forbid to use a currency to buy a collection, or use the currencies they want to pay a bid. Of course those powers are one shot! Well, almost.</p>
+
+<p>After the winner of the first collection has paid their bid, they put the collection in face up in front of them and then the next collection is revealed.</p>
+
+<p><strong> How does it ends?</strong></p>
+
+<p>As long as there is still something to bid for and someone has currency cards in their hand, the auction sale continues. However when the auction sale is over the players count their victory points.</p>
+
+<p>For every 3 identical category symbols it\'s 3 points, for every Luxury, Antique and player\'s character category symbol it\'s 1 point, everything is cumulative. The one with the most victory points win the game.</p>
+</div>]]></string>
 
 </resources>

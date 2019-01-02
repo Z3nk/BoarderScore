@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
+import android.text.Html
 import android.transition.AutoTransition
 import android.transition.Fade
 import android.transition.Scene
@@ -62,6 +63,7 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        view.findViewById<TextView>(R.id.tv_rules)?.text = Html.fromHtml(getString(R.string.rules))
         mSceneRoot = view.findViewById(R.id.settings)
         mCollapsedScene = Scene.getSceneForLayout(mSceneRoot, R.layout.fragment_settings_collapsed, activity)
         mExpandedScene = Scene.getSceneForLayout(mSceneRoot, R.layout.fragment_settings_extended, activity)
@@ -95,6 +97,7 @@ class HomeFragment : Fragment() {
                     SlidingUpPanelLayout.PanelState.EXPANDED -> {
                         val transition = AutoTransition()
                         TransitionManager.go(mExpandedScene, transition)
+                        loadExtendedRules()
                     }
                     SlidingUpPanelLayout.PanelState.COLLAPSED -> {
                         val transition = Fade()
@@ -110,6 +113,10 @@ class HomeFragment : Fragment() {
         TransitionManager.go(mCollapsedScene, AutoTransition())
         mList.add(Players(getString(R.string.playerX, nbPlayers)))
         loadCollapsedSettings()
+    }
+
+    private fun loadExtendedRules() {
+        view?.findViewById<TextView>(R.id.tv_rules)?.text = Html.fromHtml(getString(R.string.rules))
     }
 
     private fun loadCollapsedSettings() {
