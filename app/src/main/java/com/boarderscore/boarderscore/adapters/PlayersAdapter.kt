@@ -18,21 +18,6 @@ class PlayersAdapter(val data: ArrayList<Players>, private val notifyParent: (pl
 
 
     val map = mutableMapOf<String, Int>()
-    val list =
-        listOf(
-            R.drawable.gopher11,
-            R.drawable.gopher10,
-            R.drawable.gopher9,
-            R.drawable.gopher8,
-            R.drawable.gopher7,
-            R.drawable.gopher6,
-            R.drawable.gopher3,
-            R.drawable.gopher4,
-            R.drawable.gopher5,
-            R.drawable.gopher2,
-            R.drawable.gopher1,
-            R.drawable.gopher12
-        )
 
 
     class VH(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -48,10 +33,9 @@ class PlayersAdapter(val data: ArrayList<Players>, private val notifyParent: (pl
         holder.pseudo?.text = data[position].pseudo
         holder.score?.text = data[position].score.toString()
         data[position].pseudo?.let {
-            holder.gopher?.setImageResource(getGopher(it))
+            holder.gopher?.setImageResource(data[position].picture)
         }
         holder.delete?.setOnClickListener {
-
             var player : Players? = null
             if (data.elementAtOrNull(position) != null) {
                 if (map.containsKey(data[position].pseudo)) {
@@ -91,17 +75,6 @@ class PlayersAdapter(val data: ArrayList<Players>, private val notifyParent: (pl
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH {
         return PlayersAdapter.VH(LayoutInflater.from(parent.context).inflate(R.layout.row_player, parent, false))
-    }
-
-    private fun getGopher(username: String): Int {
-        try {
-            if (!map.containsKey(username)) {
-                map[username] = if (map.size < list.size) list[nbPlayers - 1] else R.drawable.ic_jim
-            }
-        }catch (e: Exception){
-            map[username] = R.drawable.ic_jim
-        }
-        return map[username]!!
     }
 
 
